@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Icon Generator for Smart Bins PWA</title>
+</head>
+<body style="font-family: system-ui; padding: 20px; background: #1a1a1a; color: white;">
+  <h1>PWA Icon Generator</h1>
+  <p>Click the button below to generate all icon sizes for your PWA</p>
+  
+  <button onclick="generateIcons()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Generate Icons</button>
+  
+  <div id="icons" style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px;"></div>
+
+  <script>
+    function generateIcons() {
+      const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+      const container = document.getElementById('icons');
+      container.innerHTML = '';
+      
+      sizes.forEach(size => {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        
+        // Background gradient
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#22c55e');
+        gradient.addColorStop(1, '#10b981');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+        
+        // Add rounded corners effect
+        ctx.globalCompositeOperation = 'destination-in';
+        ctx.beginPath();
+        ctx.roundRect(0, 0, size, size, size * 0.15);
+        ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
+        
+        // Draw recycling symbol
+        ctx.font = `${size * 0.5}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#052e1a';
+        ctx.fillText('♻️', size / 2, size / 2);
+        
+        // Create download link
+        const link = document.createElement('a');
+        link.download = `icon-${size}.png`;
+        link.href = canvas.toDataURL();
+        
+        const wrapper = document.createElement('div');
+        wrapper.style.textAlign = 'center';
+        wrapper.appendChild(canvas);
+        
+        const label = document.createElement('p');
+        label.textContent = `${size}x${size}`;
+        label.style.margin = '5px 0';
+        wrapper.appendChild(label);
+        
+        const downloadBtn = document.createElement('button');
+        downloadBtn.textContent = 'Download';
+        downloadBtn.style.padding = '5px 10px';
+        downloadBtn.style.cursor = 'pointer';
+        downloadBtn.onclick = () => link.click();
+        wrapper.appendChild(downloadBtn);
+        
+        container.appendChild(wrapper);
+      });
+      
+      // Add instruction
+      const instruction = document.createElement('div');
+      instruction.style.width = '100%';
+      instruction.style.marginTop = '20px';
+      instruction.style.padding = '15px';
+      instruction.style.background = '#333';
+      instruction.style.borderRadius = '8px';
+      instruction.innerHTML = `
+        <h3>Instructions:</h3>
+        <ol>
+          <li>Download each icon by clicking the Download button</li>
+          <li>Create a folder named "icons" in your project root</li>
+          <li>Save all downloaded icons in the icons folder</li>
+          <li>Your PWA icons are now ready!</li>
+        </ol>
+        <p><strong>Note:</strong> After saving the icons, you can delete this icon-generator.html file.</p>
+      `;
+      container.appendChild(instruction);
+    }
+    
+    // Auto-generate on load
+    window.onload = generateIcons;
+  </script>
+</body>
+</html>

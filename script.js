@@ -412,7 +412,6 @@ if(currentUser) {
 // Auto-simulate battery drain over time (optional)
 setInterval(() => {
   demoBins.forEach(bin => {
-    // Small chance of battery drain (simulating real usage)
     if(Math.random() < 0.1 && bin.battery > 0) {
       bin.battery = Math.max(0, bin.battery - 1);
     }
@@ -421,3 +420,147 @@ setInterval(() => {
     renderApp();
   }
 }, 30000); // Update every 30 seconds
+
+// ------------------------------
+// PWA Installation
+// ------------------------------
+let deferredPrompt;
+let isInstalled = false;
+
+// Check if app is already installed
+window.addEventListener('DOMContentLoaded', () => {
+  // Check if app is running in standalone mode (installed)
+  if (window.matchMedia('(display-mode: standalone)').matches || 
+      window.navigator.standalone === true) {
+    isInstalled = true;
+    console.log('App is already installed');
+  }
+});
+
+// Listen for the beforeinstallprompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later
+  deferredPrompt = e;
+  // Show install buttons
+  showInstallButtons();
+  console.log('Install prompt ready');
+});
+
+// Show install buttons when prompt is available
+function showInstallButtons() {
+  const installBtn = document.querySelector('#installBtn');
+  const installSideBtn = document.querySelector('#installSideBtn');
+  
+  if (installBtn && !isInstalled) {
+    installBtn.style.display = 'inline-flex';
+  }
+  if (installSideBtn && !isInstalled) {
+    installSideBtn.style.display = 'flex';
+  }
+}
+
+// Hide install buttons
+function hideInstallButtons() {
+  const installBtn = document.querySelector('#installBtn');
+  const installSideBtn = document.querySelector('#installSideBtn');
+  
+  if (installBtn) {
+    installBtn.style.display = 'none';
+  }
+  if (installSideBtn) {
+    installSideBtn.style.display = 'none';
+  }
+}
+
+// Install app function
+async function installApp() {
+  if (!deferredPrompt) {
+    console.log('Install prompt not available');
+    return;
+  }
+
+  // Show the install prompt
+  deferredPrompt.prompt();
+  
+  // Wait for the user to respond to the prompt
+  const { outcome } = await deferredPrompt.userChoice;
+  
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+    isInstalled = true;
+    hideInstallButtons();
+    
+    // Show success message
+    showInstallSuccess();
+  } else {
+    console.log('User dismissed the install prompt');
+  }
+  
+  // Clear the deferred prompt
+  deferredPrompt = null;
+}
+
+// Show installation success message
+function showInstallSuccess() {
+  // Create a temporary success notification
+  const notification = document.createElement('div');
+  notification.className = 'install-notification';
+  notification.innerHTML = `
+    <div class="install-success">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <span>App installed successfully!</span>
+    </div>
+  `;
+  document.body.appendChild(notification);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+// Add click handlers for install buttons
+document.addEventListener('DOMContentLoaded', () => {
+  const installBtn = document.querySelector('#installBtn');
+  const installSideBtn = document.querySelector('#installSideBtn');
+  
+  if (installBtn) {
+    installBtn.addEventListener('click', installApp);
+  }
+  
+  if (installSideBtn) {
+    installSideBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      installApp();
+    });
+  }
+});
+
+// Listen for app installed event
+window.addEventListener('appinstalled', () => {
+  console.log('App was installed');
+  isInstalled = true;
+  hideInstallButtons();
+  deferredPrompt = null;
+});
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+        
+        // Check for updates periodically
+        setInterval(() => {
+          registration.update();
+        }, 60000); // Check every minute
+      })
+      .catch(err => console.log('SW registration failed', err));
+  });
+}

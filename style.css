@@ -548,3 +548,70 @@ main {
     height: 10px;
   }
 }
+
+/* Install button styles */
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  border: none;
+  color: #052e1a;
+  font-weight: 600;
+  padding: .6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.install-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.install-btn svg {
+  stroke: #052e1a;
+}
+
+/* Install notification styles */
+.install-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+}
+
+.install-success {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  color: #052e1a;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+  font-weight: 600;
+}
+
+.install-success svg {
+  stroke: #052e1a;
+  flex-shrink: 0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Small button style */
+.btn.small {
+  padding: .5rem .75rem;
+  font-size: .85rem;
+}

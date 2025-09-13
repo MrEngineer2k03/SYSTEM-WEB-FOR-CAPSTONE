@@ -4,6 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Automatic Trash Segregation – Smart Bins</title>
+
+  <!-- PWA manifest and icons -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -52,6 +58,7 @@
         <a data-tab="store" class="nav-btn">🛍️ Points Store</a>
         <a data-tab="profile" class="nav-btn">👤 Profile</a>
         <div class="spacer"></div>
+        <a id="installSideBtn" class="nav-btn" style="display:none" href="#">📲 Install App</a>
         <a id="logout" class="nav-btn" href="#">🚪 Logout</a>
       </nav>
     </aside>
@@ -63,6 +70,14 @@
         </div>
         <div class="row" style="gap:.5rem">
           <span class="chip">Eco-Points: <strong id="topPoints" style="margin-left:.35rem">0</strong></span>
+          <button id="installBtn" class="btn primary install-btn" style="display:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install App
+          </button>
         </div>
       </header>
 
