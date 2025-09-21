@@ -117,7 +117,14 @@ const load = k => { try{ return JSON.parse(localStorage.getItem(k)); }catch{retu
 // Auth System
 // ------------------------------
 let currentUser = null;
+let isStaff = false;
 let users = load("users") || {};
+
+// Initialize staff account
+if (!users.staff) {
+  users.staff = { pass: 'staff123', points: 0, type: 'staff' };
+  save("users", users);
+}
 
 function showAuth(msg=""){
   document.querySelector("#auth").classList.remove("hidden");
@@ -140,24 +147,43 @@ document.querySelector("#authSubmit").onclick = () => {
     document.querySelector("#authMsg").textContent = "Enter username & password.";
     return;
   }
+  
   if(mode === "Login"){
+    // Check for staff login
+    if(user === "staff" && pass === "staff123"){
+      currentUser = user;
+      isStaff = true;
+      showApp();
+      return;
+    }
+    
+    // Regular user login
     if(users[user] && users[user].pass === pass){
       currentUser = user;
+      isStaff = users[user].type === 'staff';
       showApp();
     }else{
       document.querySelector("#authMsg").textContent = "Invalid credentials.";
     }
   }else{
+    // Prevent staff account registration
+    if(user === "staff"){
+      document.querySelector("#authMsg").textContent = "Cannot register with staff username.";
+      return;
+    }
+    
     if(users[user]){
       document.querySelector("#authMsg").textContent = "User already exists.";
     }else{
-      users[user] = { pass, points:0 };
+      users[user] = { pass, points:0, type: 'user' };
       save("users", users);
       currentUser = user;
+      isStaff = false;
       showApp();
     }
   }
 };
+
 document.querySelector("#authToggle").onclick = () => {
   const title = document.querySelector("#authTitle");
   const btn = document.querySelector("#authSubmit");
@@ -176,8 +202,60 @@ document.querySelector("#authToggle").onclick = () => {
 document.querySelector("#logout").onclick = e => {
   e.preventDefault();
   currentUser = null;
+  isStaff = false;
   showAuth("Logged out.");
 };
+
+// ------------------------------
+// Sidebar Toggle Functions
+// ------------------------------
+function toggleSidebar() {
+  const sidebar = document.querySelector('#sidebar');
+  const overlay = document.querySelector('#sidebarOverlay');
+  const toggle = document.querySelector('#sidebarToggle');
+  
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('active');
+  toggle.classList.toggle('active');
+}
+
+function closeSidebar() {
+  const sidebar = document.querySelector('#sidebar');
+  const overlay = document.querySelector('#sidebarOverlay');
+  const toggle = document.querySelector('#sidebarToggle');
+  
+  sidebar.classList.remove('active');
+  overlay.classList.remove('active');
+  toggle.classList.remove('active');
+}
+
+// Sidebar event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebarToggle = document.querySelector('#sidebarToggle');
+  const sidebarClose = document.querySelector('#sidebarClose');
+  const sidebarOverlay = document.querySelector('#sidebarOverlay');
+  
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener('click', toggleSidebar);
+  }
+  
+  if (sidebarClose) {
+    sidebarClose.addEventListener('click', closeSidebar);
+  }
+  
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener('click', closeSidebar);
+  }
+  
+  // Close sidebar when clicking navigation items on mobile
+  document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (window.innerWidth <= 980) {
+        closeSidebar();
+      }
+    });
+  });
+});
 
 // ------------------------------
 // App Rendering
@@ -188,11 +266,27 @@ function renderApp(){
   // Update sidebar & header
   document.querySelector("#sideUser").textContent = currentUser;
   document.querySelector("#topUser").textContent = currentUser;
+  document.querySelector("#sideUserType").textContent = isStaff ? "Staff Account" : "Regular User";
   document.querySelector("#sidePoints").textContent = users[currentUser].points;
   document.querySelector("#topPoints").textContent = users[currentUser].points;
   document.querySelector("#storePoints").textContent = users[currentUser].points;
   document.querySelector("#profUser").value = currentUser;
   document.querySelector("#profPass").value = "";
+
+  // Show/hide staff elements
+  const staffBadge = document.querySelector("#topStaffBadge");
+  const staffControls = document.querySelector("#staffControls");
+  const passwordField = document.querySelector("#passwordField");
+  
+  if (isStaff) {
+    staffBadge.style.display = "inline-flex";
+    staffControls.style.display = "block";
+    passwordField.style.display = "none"; // Hide password change for staff
+  } else {
+    staffBadge.style.display = "none";
+    staffControls.style.display = "none";
+    passwordField.style.display = "grid";
+  }
 
   // Render bins
   const grid = document.querySelector("#binsGrid");
@@ -202,7 +296,19 @@ function renderApp(){
     const batteryStatus = getBatteryStatus(bin.battery);
     
     const card = document.createElement("div");
-    card.className = "card bin-card";
+    card.className = `card bin-card ${isStaff ? 'staff-managed' : ''}`;
+    
+    let actionsHTML = '';
+    if (isStaff) {
+      actionsHTML = `
+        <div class="actions staff-actions">
+          <button class="btn staff-btn small" onclick="addPoints('${bin.id}')">+Points</button>
+          <button class="btn staff-btn small" onclick="clearTrash('${bin.id}')">Clear</button>
+          <button class="btn staff-btn small" onclick="chargeBattery('${bin.id}')">Charge</button>
+        </div>
+      `;
+    }
+    
     card.innerHTML = `
       <div class="bin-head">
         <strong>${bin.id}</strong>
@@ -220,10 +326,7 @@ function renderApp(){
         <span class="battery-text" style="color: ${batteryStatus.color}">${bin.battery}%</span>
         <span class="battery-status">${batteryStatus.text}</span>
       </div>
-      <div class="actions">
-        <button class="btn ghost small" onclick="collectBin('${bin.id}')">Collect</button>
-        <button class="btn ghost small" onclick="addPoints('${bin.id}')">+Points</button>
-      </div>
+      ${actionsHTML}
     `;
     grid.appendChild(card);
   });
@@ -250,21 +353,94 @@ function renderApp(){
 // ------------------------------
 // Bin Actions
 // ------------------------------
-function collectBin(id){
-  const b = demoBins.find(x=>x.id===id);
-  if(b){
-    b.filled = 0;
-    b.lastCollected = Date.now();
-    // Simulate minor battery drain from collection process
-    b.battery = Math.max(0, b.battery - Math.floor(Math.random() * 3 + 1));
-    renderApp();
-  }
-}
 function addPoints(id){
   users[currentUser].points += 5;
   save("users", users);
   renderApp();
+  showNotification(`${id} Points added to your account successfully!`, 'success');
 }
+
+// Staff-only functions
+function clearTrash(id) {
+  if (!isStaff) return;
+  const b = demoBins.find(x => x.id === id);
+  if (b) {
+    b.filled = 0;
+    b.lastCollected = Date.now();
+    renderApp();
+    showNotification(`${id} trash cleared successfully!`, 'success');
+  }
+}
+
+function chargeBattery(id) {
+  if (!isStaff) return;
+  const b = demoBins.find(x => x.id === id);
+  if (b) {
+    b.battery = 100;
+    renderApp();
+    showNotification(`${id} battery charged to 100%!`, 'success');
+  }
+}
+
+function clearAllBins() {
+  if (!isStaff) return;
+  demoBins.forEach(b => {
+    b.filled = 0;
+    b.lastCollected = Date.now();
+  });
+  renderApp();
+  showNotification('All bins cleared successfully!', 'success');
+}
+
+function chargeAllBatteries() {
+  if (!isStaff) return;
+  demoBins.forEach(b => {
+    b.battery = 100;
+  });
+  renderApp();
+  showNotification('All batteries charged to 100%!', 'success');
+}
+
+function resetSystem() {
+  if (!isStaff) return;
+  if (confirm('Are you sure you want to reset the entire system? This will clear all bins and randomize battery levels.')) {
+    demoBins.forEach(b => {
+      b.filled = Math.floor(Math.random() * 50); // Random fill 0-50%
+      b.battery = Math.floor(Math.random() * 40 + 60); // Random battery 60-100%
+      b.lastCollected = Date.now() - Math.floor(Math.random() * 72 * 60 * 60 * 1000); // Random collection within 72h
+    });
+    renderApp();
+    showNotification('System reset successfully!', 'success');
+  }
+}
+
+function generateReport() {
+  if (!isStaff) return;
+  const totalBins = demoBins.length;
+  const fullBins = demoBins.filter(b => b.filled > 80).length;
+  const lowBatteryBins = demoBins.filter(b => b.battery < 25).length;
+  const avgFill = Math.round(demoBins.reduce((sum, b) => sum + b.filled, 0) / totalBins);
+  const avgBattery = Math.round(demoBins.reduce((sum, b) => sum + b.battery, 0) / totalBins);
+  
+  const report = `
+SMART BIN SYSTEM REPORT
+Generated: ${new Date().toLocaleString()}
+---------------------------------
+Total Bins: ${totalBins}
+Bins >80% Full: ${fullBins}
+Low Battery Bins (<25%): ${lowBatteryBins}
+Average Fill Level: ${avgFill}%
+Average Battery Level: ${avgBattery}%
+---------------------------------
+Bins Requiring Attention:
+${demoBins.filter(b => b.filled > 80 || b.battery < 25)
+  .map(b => `• ${b.id}: ${b.filled}% full, ${b.battery}% battery`)
+  .join('\n') || 'None'}
+  `;
+  
+  alert(report);
+}
+
 function simulateCollect(){
   const dt = document.querySelector("#collectTime").value;
   if(!dt) return;
@@ -275,6 +451,7 @@ function simulateCollect(){
   });
   renderApp();
 }
+
 function randomizeLevels(){
   demoBins.forEach(b=>b.filled = Math.floor(Math.random()*100));
   renderApp();
@@ -297,6 +474,36 @@ function simulateSolarCharge(){
   renderApp();
 }
 
+// Notification system
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = 'install-notification';
+  
+  let bgColor = 'linear-gradient(135deg, #22c55e, #10b981)';
+  let textColor = '#052e1a';
+  
+  if (type === 'error') {
+    bgColor = 'linear-gradient(135deg, #ef4444, #dc2626)';
+    textColor = '#fff';
+  }
+  
+  notification.innerHTML = `
+    <div class="install-success" style="background: ${bgColor}; color: ${textColor};">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <span>${message}</span>
+    </div>
+  `;
+  document.body.appendChild(notification);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
 // ------------------------------
 // Store Actions
 // ------------------------------
@@ -307,10 +514,10 @@ function redeem(id){
   if(u.points >= item.cost){
     u.points -= item.cost;
     save("users", users);
-    alert("Redeemed: "+item.title);
+    showNotification("Redeemed: " + item.title, 'success');
     renderApp();
   }else{
-    alert("Not enough points!");
+    showNotification("Not enough points!", 'error');
   }
 }
 
@@ -321,6 +528,12 @@ document.querySelector("#saveProfile").onclick = () => {
   const newUser = document.querySelector("#profUser").value.trim();
   const newPass = document.querySelector("#profPass").value.trim();
 
+  // Don't allow changing staff username
+  if (currentUser === "staff" && newUser !== "staff") {
+    document.querySelector("#profMsg").textContent = "Cannot change staff username.";
+    return;
+  }
+
   if(newUser !== currentUser && users[newUser]){
     document.querySelector("#profMsg").textContent = "Username already exists.";
     return;
@@ -328,7 +541,11 @@ document.querySelector("#saveProfile").onclick = () => {
 
   const oldData = users[currentUser];
   delete users[currentUser];
-  users[newUser] = { pass: newPass || oldData.pass, points: oldData.points };
+  users[newUser] = { 
+    pass: newPass || oldData.pass, 
+    points: oldData.points,
+    type: oldData.type || 'user'
+  };
   currentUser = newUser;
   save("users", users);
   document.querySelector("#profMsg").textContent = "Profile saved!";
@@ -357,7 +574,22 @@ function renderDesktopMap(){
     const lowBatteryClass = batteryStatus.level === 'low' ? 'low-battery' : '';
 
     pin.innerHTML = `<div class="dot ${lowBatteryClass}" style="background:${color}; box-shadow:0 0 6px ${color}80"></div><div class="label">${b.id}</div>`;
-    pin.onclick = ()=>alert(`${b.id} – ${b.type} – ${b.filled}% full\nBattery: ${b.battery}% (${batteryStatus.text})\nLast collected: ${relTime(b.lastCollected)}`);
+    
+    const clickHandler = () => {
+      const message = `${b.id} – ${b.type} – ${b.filled}% full\nBattery: ${b.battery}% (${batteryStatus.text})\nLast collected: ${relTime(b.lastCollected)}`;
+      if (isStaff) {
+        const action = confirm(`${message}\n\nStaff Actions:\nOK - Clear Trash\nCancel - Charge Battery`);
+        if (action) {
+          clearTrash(b.id);
+        } else {
+          chargeBattery(b.id);
+        }
+      } else {
+        alert(message);
+      }
+    };
+    
+    pin.onclick = clickHandler;
     map.appendChild(pin);
   });
 }
@@ -384,7 +616,22 @@ function renderMobileMap(){
     const lowBatteryClass = batteryStatus.level === 'low' ? 'low-battery' : '';
 
     pin.innerHTML = `<div class="dot ${lowBatteryClass}" style="background:${color}; box-shadow:0 0 6px ${color}80"></div><div class="label">${b.id}</div>`;
-    pin.onclick = ()=>alert(`${b.id} – ${b.type} – ${b.filled}% full\nBattery: ${b.battery}% (${batteryStatus.text})\nLast collected: ${relTime(b.lastCollected)}`);
+    
+    const clickHandler = () => {
+      const message = `${b.id} – ${b.type} – ${b.filled}% full\nBattery: ${b.battery}% (${batteryStatus.text})\nLast collected: ${relTime(b.lastCollected)}`;
+      if (isStaff) {
+        const action = confirm(`${message}\n\nStaff Actions:\nOK - Clear Trash\nCancel - Charge Battery`);
+        if (action) {
+          clearTrash(b.id);
+        } else {
+          chargeBattery(b.id);
+        }
+      } else {
+        alert(message);
+      }
+    };
+    
+    pin.onclick = clickHandler;
     map.appendChild(pin);
   });
 }

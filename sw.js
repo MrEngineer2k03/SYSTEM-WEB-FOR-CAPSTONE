@@ -5,8 +5,8 @@ const DYNAMIC_CACHE = 'smartbins-dynamic-v2';
 const ASSETS = [
   './',
   './index.html',
-  './style.css',
-  './script.js',
+  './web.css',
+  './web.js',
   './manifest.json',
   './offline.html',
   './campusmap.png'
