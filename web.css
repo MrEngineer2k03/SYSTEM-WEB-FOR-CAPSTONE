@@ -176,12 +176,12 @@ p { margin-bottom: 1rem; }
 /* Input Components */
 input, select, textarea {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   background: var(--panel);
   color: var(--text);
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: var(--radius);
-  font-size: 0.875rem;
+  font-size: 1rem;
   transition: all 0.15s ease;
   min-height: 44px; /* Touch-friendly */
 }
@@ -206,7 +206,7 @@ input::placeholder, textarea::placeholder {
 .field label {
   font-weight: 500;
   color: var(--text);
-  font-size: 0.875rem;
+  font-size: 1.5rem;
 }
 
 /* Chip Component */
@@ -217,7 +217,7 @@ input::placeholder, textarea::placeholder {
   background: var(--panel);
   color: var(--text);
   border-radius: 999px;
-  font-size: 1.75rem;
+  font-size: 1rem;
   font-weight: 2500;
   white-space: nowrap;
   border: 1px solid rgba(148, 163, 184, 0.1);
@@ -265,7 +265,7 @@ input::placeholder, textarea::placeholder {
 
 .auth-card {
   display: grid;
-  max-width: 700px;
+  max-width: 550px;
   width: 100%;
   background: var(--card);
   border-radius: var(--radius-lg);
@@ -309,7 +309,8 @@ input::placeholder, textarea::placeholder {
 }
 
 .auth-form h2 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
   color: var(--text);
 }
 
