@@ -1,4 +1,4 @@
-const CACHE_NAME = 'smartbins-v3';
+const CACHE_NAME = 'smartbins-v4';
 const STATIC_CACHE = 'smartbins-static-v2';
 const DYNAMIC_CACHE = 'smartbins-dynamic-v2';
 
