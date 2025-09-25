@@ -265,7 +265,7 @@ input::placeholder, textarea::placeholder {
 
 .auth-card {
   display: grid;
-  max-width: 550px;
+  max-width: 500px;
   width: 100%;
   background: var(--card);
   border-radius: var(--radius-lg);
@@ -828,22 +828,74 @@ main {
     --sidebar-width: 280px;
   }
 
-  /* Auth card mobile layout */
+  /* Auth card mobile layout - More compact */
   .auth-card {
     grid-template-columns: 1fr;
-    max-width: 500px;
+    max-width: 400px; /* Reduced from 500px */
+    margin: 0 0.75rem; /* Add side margins */
   }
 
   .auth-hero {
-    padding: 1.5rem;
+    padding: 1.25rem; /* Reduced from 1.5rem */
   }
 
   .auth-hero h1 {
-    font-size: 1.5rem;
+    font-size: 1.25rem; /* Reduced from 1.5rem */
+    margin-bottom: 0.75rem; /* Reduced margin */
+    line-height: 1.3;
+  }
+
+  .auth-hero p {
+    margin-bottom: 1rem; /* Reduced from 1.5rem */
+    font-size: 0.875rem; /* Smaller text */
+    line-height: 1.5;
+  }
+
+  .metric {
+    font-size: 0.875rem; /* Reduced from 1.5rem */
+    gap: 0.5rem; /* Reduced gap */
+    margin-bottom: 0.5rem; /* Reduced margin */
+  }
+
+  .metric svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tag {
+    font-size: 0.875rem; /* Much smaller tag */
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
   .auth-form {
-    padding: 1.5rem;
+    padding: 1.25rem; /* Reduced from 1.5rem */
+  }
+
+  .auth-form h2 {
+    font-size: 1.5rem; /* Reduced from 2.5rem */
+    margin-bottom: 1.5rem; /* Reduced from 2.5rem */
+  }
+
+  /* Make fields more compact */
+  .field {
+    margin-bottom: 0.875rem; /* Reduced from 1rem */
+  }
+
+  .field label {
+    font-size: 0.875rem; /* Much smaller labels */
+  }
+
+  /* Adjust input sizing */
+  input {
+    padding: 0.75rem; /* Reduced padding */
+    font-size: 1rem;
+  }
+
+  /* Make buttons more compact */
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
   }
 
   /* Main content adjusts for mobile */
@@ -973,13 +1025,42 @@ main {
 }
 
 @media (max-width: 640px) {
-  /* Extra small mobile adjustments */
+  /* Extra small mobile adjustments - Even more compact */
+  .auth-card {
+    max-width: 350px; /* Even smaller for very small screens */
+    margin: 0 0.5rem;
+  }
+
   .auth-hero {
     padding: 1rem;
   }
 
+  .auth-hero h1 {
+    font-size: 1.125rem; /* Even smaller */
+    margin-bottom: 0.5rem;
+  }
+
+  .auth-hero p {
+    font-size: 0.8125rem; /* Smaller text */
+    margin-bottom: 0.75rem;
+  }
+
+  .metric {
+    font-size: 0.8125rem; /* Even smaller metrics */
+    margin-bottom: 0.375rem;
+  }
+
   .auth-form {
     padding: 1rem;
+  }
+
+  .auth-form h2 {
+    font-size: 1.375rem; /* Smaller form title */
+    margin-bottom: 1.25rem;
+  }
+
+  .field {
+    margin-bottom: 0.75rem;
   }
 
   .sidebar-header {
@@ -1027,6 +1108,52 @@ main {
   .install-btn svg {
     width: 14px;
     height: 14px;
+  }
+}
+
+/* Very small screens (phones in portrait) */
+@media (max-width: 480px) {
+  .auth-card {
+    max-width: 320px; /* Maximum compactness */
+    margin: 0 0.5rem;
+  }
+
+  .auth-hero {
+    padding: 0.875rem;
+  }
+
+  .auth-hero h1 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .auth-hero p {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .metric {
+    font-size: 0.75rem;
+    gap: 0.375rem;
+  }
+
+  .metric svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .auth-form {
+    padding: 0.875rem;
+  }
+
+  .auth-form h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 
