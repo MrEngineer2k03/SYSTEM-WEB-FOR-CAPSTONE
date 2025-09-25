@@ -831,12 +831,12 @@ main {
   /* Auth card mobile layout - More compact */
   .auth-card {
     grid-template-columns: 1fr;
-    max-width: 400px; /* Reduced from 500px */
+    max-width: 360px; /* Further reduced for smaller appearance */
     margin: 0 0.75rem; /* Add side margins */
   }
 
   .auth-hero {
-    padding: 1.25rem; /* Reduced from 1.5rem */
+    padding: 1rem; /* Further reduced padding */
   }
 
   .auth-hero h1 {
@@ -869,7 +869,7 @@ main {
   }
 
   .auth-form {
-    padding: 1.25rem; /* Reduced from 1.5rem */
+    padding: 1rem; /* Further reduced padding */
   }
 
   .auth-form h2 {
@@ -1027,12 +1027,12 @@ main {
 @media (max-width: 640px) {
   /* Extra small mobile adjustments - Even more compact */
   .auth-card {
-    max-width: 350px; /* Even smaller for very small screens */
+    max-width: 320px; /* Even smaller for very small screens */
     margin: 0 0.5rem;
   }
 
   .auth-hero {
-    padding: 1rem;
+    padding: 0.875rem; /* More compact */
   }
 
   .auth-hero h1 {
@@ -1051,7 +1051,7 @@ main {
   }
 
   .auth-form {
-    padding: 1rem;
+    padding: 0.875rem; /* More compact */
   }
 
   .auth-form h2 {
@@ -1114,12 +1114,12 @@ main {
 /* Very small screens (phones in portrait) */
 @media (max-width: 480px) {
   .auth-card {
-    max-width: 320px; /* Maximum compactness */
+    max-width: 300px; /* Maximum compactness */
     margin: 0 0.5rem;
   }
 
   .auth-hero {
-    padding: 0.875rem;
+    padding: 0.75rem; /* Very compact */
   }
 
   .auth-hero h1 {
@@ -1143,7 +1143,7 @@ main {
   }
 
   .auth-form {
-    padding: 0.875rem;
+    padding: 0.75rem; /* Very compact */
   }
 
   .auth-form h2 {
