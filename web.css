@@ -265,7 +265,7 @@ input::placeholder, textarea::placeholder {
 
 .auth-card {
   display: grid;
-  max-width: 500px;
+  max-width: 300px;
   width: 100%;
   background: var(--card);
   border-radius: var(--radius-lg);
