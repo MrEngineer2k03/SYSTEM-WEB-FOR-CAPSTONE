@@ -12,8 +12,7 @@
   --ring: 0 0 0 3px rgba(34, 197, 94, .35);
   --radius: 16px;
   --shadow: 0 10px 30px rgba(0, 0, 0, .35);
-  
-  /* Additional derived colors for consistency */
+
   --brand-hover: #16a34a;
   --brand-light: rgba(34, 197, 94, 0.1);
   --brand-dark: #15803d;
@@ -46,7 +45,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
@@ -60,12 +58,10 @@ h4 { font-size: 1.125rem; }
 
 p { margin-bottom: 1rem; }
 
-/* Utility Classes */
 .hidden { display: none !important; }
 .muted { color: var(--muted); font-size: 0.875rem; }
 .smalltext { font-size: 0.75rem; color: var(--muted); }
 
-/* Layout Utilities */
 .row {
   display: flex;
   align-items: center;
@@ -80,7 +76,6 @@ p { margin-bottom: 1rem; }
 
 .spacer { flex: 1; }
 
-/* Grid System */
 .grid {
   display: grid;
   gap: 1rem;
@@ -90,7 +85,6 @@ p { margin-bottom: 1rem; }
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
-/* Card Component */
 .card {
   background: var(--card);
   border-radius: var(--radius-lg);
@@ -106,7 +100,6 @@ p { margin-bottom: 1rem; }
   border-color: rgba(148, 163, 184, 0.2);
 }
 
-/* Button Components */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -121,7 +114,7 @@ p { margin-bottom: 1rem; }
   text-decoration: none;
   cursor: pointer;
   transition: all 0.15s ease;
-  min-height: 44px; /* Touch-friendly minimum */
+  min-height: 44px;
 }
 
 .btn:hover {
@@ -160,7 +153,6 @@ p { margin-bottom: 1rem; }
   min-height: 36px;
 }
 
-/* Staff Button Styling */
 .staff-btn {
   background: linear-gradient(135deg, var(--accent), var(--brand));
   color: var(--bg);
@@ -173,7 +165,6 @@ p { margin-bottom: 1rem; }
   transform: translateY(-2px);
 }
 
-/* Input Components */
 input, select, textarea {
   width: 100%;
   padding: 1rem;
@@ -183,7 +174,7 @@ input, select, textarea {
   border-radius: var(--radius);
   font-size: 1rem;
   transition: all 0.15s ease;
-  min-height: 44px; /* Touch-friendly */
+  min-height: 44px;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -196,7 +187,6 @@ input::placeholder, textarea::placeholder {
   color: var(--muted);
 }
 
-/* Field Component */
 .field {
   display: grid;
   gap: 0.5rem;
@@ -209,7 +199,6 @@ input::placeholder, textarea::placeholder {
   font-size: 1.5rem;
 }
 
-/* Chip Component */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -229,7 +218,6 @@ input::placeholder, textarea::placeholder {
   border: 1px solid var(--brand);
 }
 
-/* Tag Component */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -242,7 +230,6 @@ input::placeholder, textarea::placeholder {
   margin-bottom: 1rem;
 }
 
-/* Pill Component */
 .pill {
   display: inline-block;
   padding: 0.25rem 0.75rem;
@@ -253,7 +240,6 @@ input::placeholder, textarea::placeholder {
   font-weight: 500;
 }
 
-/* Authentication Section */
 #auth {
   min-height: 100vh;
   display: flex;
@@ -314,22 +300,11 @@ input::placeholder, textarea::placeholder {
   color: var(--text);
 }
 
-.auth-hint {
-  background: var(--panel);
-  padding: 0.75rem;
-  border-radius: var(--radius);
-  text-align: center;
-  margin-top: 1rem;
-  color: var(--muted);
-}
-
-/* App Layout */
 #app {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
   width: var(--sidebar-width);
   background: var(--card);
@@ -416,13 +391,6 @@ input::placeholder, textarea::placeholder {
   margin-bottom: 0.5rem;
 }
 
-.points {
-  color: var(--brand);
-  font-weight: 600;
-  font-size: 0.875rem;
-}
-
-/* Navigation */
 nav {
   flex: 1;
   padding: 1rem 0;
@@ -458,7 +426,6 @@ nav {
   border-right: 3px solid var(--brand);
 }
 
-/* Main Content */
 .main-content {
   flex: 1;
   display: flex;
@@ -466,7 +433,6 @@ nav {
   margin-left: 0;
 }
 
-/* Header */
 .top {
   height: var(--header-height);
   background: var(--card);
@@ -522,7 +488,6 @@ nav {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Install Button */
 .install-btn {
   background: linear-gradient(135deg, var(--brand), var(--accent));
   color: var(--bg);
@@ -534,7 +499,6 @@ nav {
   background: linear-gradient(135deg, var(--brand-hover), var(--accent));
 }
 
-/* Main Content Area */
 main {
   flex: 1;
   padding: 1.5rem;
@@ -542,7 +506,6 @@ main {
   background: var(--bg);
 }
 
-/* Tabs */
 .tab {
   display: none;
 }
@@ -551,7 +514,6 @@ main {
   display: block;
 }
 
-/* Bin Cards */
 .bin-card {
   position: relative;
   overflow: hidden;
@@ -573,7 +535,6 @@ main {
   color: var(--text);
 }
 
-/* Progress Bar */
 .progress {
   width: 100%;
   height: 12px;
@@ -589,7 +550,6 @@ main {
   transition: width 0.3s ease;
 }
 
-/* Battery Section */
 .battery-section {
   display: flex;
   align-items: center;
@@ -640,7 +600,6 @@ main {
   color: var(--muted);
 }
 
-/* Staff Actions */
 .actions {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -653,72 +612,6 @@ main {
   flex-wrap: wrap;
 }
 
-/* Points Store - Mobile Optimized */
-.store-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr;
-}
-
-.store-item {
-  position: relative;
-  background: linear-gradient(135deg, var(--card), var(--panel));
-  border: 2px solid rgba(148, 163, 184, 0.1);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.store-item:hover {
-  border-color: var(--brand);
-  background: linear-gradient(135deg, var(--brand-light), var(--card));
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-.store-item .title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
-}
-
-.store-item .muted {
-  font-size: 0.875rem;
-  color: var(--muted);
-  margin-bottom: 1rem;
-  flex: 1;
-}
-
-.store-item .btn {
-  background: linear-gradient(135deg, var(--brand), var(--accent));
-  color: var(--bg);
-  border: none;
-  font-weight: 600;
-  width: 100%;
-  margin: 0;
-  padding: 0.875rem 1.5rem;
-  font-size: 0.875rem;
-  border-radius: var(--radius);
-  transition: all 0.2s ease;
-}
-
-.store-item .btn:hover {
-  background: linear-gradient(135deg, var(--brand-hover), var(--accent));
-  transform: translateY(-1px);
-}
-
-.store-item .btn:active {
-  transform: translateY(0);
-}
-
-/* Map Styles */
 .map {
   width: 100%;
   height: 400px;
@@ -789,7 +682,6 @@ main {
   opacity: 1;
 }
 
-/* Installation Notification */
 .install-notification {
   position: fixed;
   top: 20px;
@@ -822,39 +714,37 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Mobile Styles */
 @media (max-width: 980px) {
   :root {
     --sidebar-width: 280px;
   }
 
-  /* Auth card mobile layout - More compact */
   .auth-card {
     grid-template-columns: 1fr;
-    max-width: 360px; /* Further reduced for smaller appearance */
-    margin: 0 0.75rem; /* Add side margins */
+    max-width: 360px;
+    margin: 0 0.75rem;
   }
 
   .auth-hero {
-    padding: 1rem; /* Further reduced padding */
+    padding: 1rem;
   }
 
   .auth-hero h1 {
-    font-size: 1.25rem; /* Reduced from 1.5rem */
-    margin-bottom: 0.75rem; /* Reduced margin */
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
     line-height: 1.3;
   }
 
   .auth-hero p {
-    margin-bottom: 1rem; /* Reduced from 1.5rem */
-    font-size: 0.875rem; /* Smaller text */
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
     line-height: 1.5;
   }
 
   .metric {
-    font-size: 0.875rem; /* Reduced from 1.5rem */
-    gap: 0.5rem; /* Reduced gap */
-    margin-bottom: 0.5rem; /* Reduced margin */
+    font-size: 0.875rem;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .metric svg {
@@ -863,47 +753,42 @@ main {
   }
 
   .tag {
-    font-size: 0.875rem; /* Much smaller tag */
+    font-size: 0.875rem;
     padding: 0.375rem 0.75rem;
     margin-bottom: 0.75rem;
   }
 
   .auth-form {
-    padding: 1rem; /* Further reduced padding */
+    padding: 1rem;
   }
 
   .auth-form h2 {
-    font-size: 1.5rem; /* Reduced from 2.5rem */
-    margin-bottom: 1.5rem; /* Reduced from 2.5rem */
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
-  /* Make fields more compact */
   .field {
-    margin-bottom: 0.875rem; /* Reduced from 1rem */
+    margin-bottom: 0.875rem;
   }
 
   .field label {
-    font-size: 0.875rem; /* Much smaller labels */
+    font-size: 0.875rem;
   }
 
-  /* Adjust input sizing */
   input {
-    padding: 0.75rem; /* Reduced padding */
+    padding: 0.75rem;
     font-size: 1rem;
   }
 
-  /* Make buttons more compact */
   .btn {
     padding: 0.75rem 1.25rem;
     font-size: 0.875rem;
   }
 
-  /* Main content adjusts for mobile */
   .main-content {
     margin-left: 0;
   }
 
-  /* Header mobile adjustments */
   .top {
     padding: 0 0.75rem;
   }
@@ -916,37 +801,14 @@ main {
     display: none;
   }
 
-  /* Main padding reduced on mobile */
   main {
     padding: 1rem;
   }
 
-  /* Cards grid mobile responsive */
   .cards {
     grid-template-columns: 1fr;
   }
 
-  /* Store grid mobile optimization */
-  .store-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .store-item {
-    padding: 1.25rem;
-    min-height: 120px;
-  }
-
-  .store-item .title {
-    font-size: 1rem;
-  }
-
-  .store-item .btn {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.875rem;
-  }
-
-  /* Map mobile adjustments */
   .desktop-map {
     display: none;
   }
@@ -961,12 +823,10 @@ main {
     margin-top: 0.75rem;
   }
 
-  /* Profile grid mobile */
   #tab-profile .grid {
     grid-template-columns: 1fr;
   }
 
-  /* Staff actions mobile wrap */
   .staff-actions {
     flex-direction: column;
   }
@@ -975,7 +835,6 @@ main {
     width: 100%;
   }
 
-  /* Notification mobile positioning */
   .install-notification {
     top: 10px;
     right: 10px;
@@ -987,7 +846,6 @@ main {
     font-size: 0.875rem;
   }
 
-  /* Touch improvements */
   .btn {
     min-height: 48px;
     padding: 0.875rem 1.5rem;
@@ -1001,16 +859,14 @@ main {
   input, select, textarea {
     min-height: 48px;
     padding: 0.875rem;
-    font-size: 1rem; /* Prevents zoom on iOS */
+    font-size: 1rem;
   }
 
-  /* Chip adjustments for mobile */
   .chip {
     font-size: 0.75rem;
     padding: 0.375rem 0.625rem;
   }
 
-  /* Battery section mobile */
   .battery-section {
     gap: 0.5rem;
   }
@@ -1025,37 +881,36 @@ main {
 }
 
 @media (max-width: 640px) {
-  /* Extra small mobile adjustments - Even more compact */
   .auth-card {
-    max-width: 320px; /* Even smaller for very small screens */
+    max-width: 320px;
     margin: 0 0.5rem;
   }
 
   .auth-hero {
-    padding: 0.875rem; /* More compact */
+    padding: 0.875rem;
   }
 
   .auth-hero h1 {
-    font-size: 1.125rem; /* Even smaller */
+    font-size: 1.125rem;
     margin-bottom: 0.5rem;
   }
 
   .auth-hero p {
-    font-size: 0.8125rem; /* Smaller text */
+    font-size: 0.8125rem;
     margin-bottom: 0.75rem;
   }
 
   .metric {
-    font-size: 0.8125rem; /* Even smaller metrics */
+    font-size: 0.8125rem;
     margin-bottom: 0.375rem;
   }
 
   .auth-form {
-    padding: 0.875rem; /* More compact */
+    padding: 0.875rem;
   }
 
   .auth-form h2 {
-    font-size: 1.375rem; /* Smaller form title */
+    font-size: 1.375rem;
     margin-bottom: 1.25rem;
   }
 
@@ -1079,27 +934,16 @@ main {
     padding: 1rem;
   }
 
-  .store-item {
-    padding: 1rem;
-    min-height: 110px;
-  }
-
-  .store-item .title {
-    font-size: 0.9375rem;
-  }
-
   .map {
     height: 300px;
   }
 
-  /* Row layouts stack on very small screens */
   .row-between {
     flex-direction: column;
     gap: 0.5rem;
     align-items: flex-start;
   }
 
-  /* Install button mobile */
   .install-btn {
     font-size: 0.75rem;
     padding: 0.625rem 1rem;
@@ -1111,15 +955,14 @@ main {
   }
 }
 
-/* Very small screens (phones in portrait) */
 @media (max-width: 480px) {
   .auth-card {
-    max-width: 300px; /* Maximum compactness */
+    max-width: 300px;
     margin: 0 0.5rem;
   }
 
   .auth-hero {
-    padding: 0.75rem; /* Very compact */
+    padding: 0.75rem;
   }
 
   .auth-hero h1 {
@@ -1143,7 +986,7 @@ main {
   }
 
   .auth-form {
-    padding: 0.75rem; /* Very compact */
+    padding: 0.75rem;
   }
 
   .auth-form h2 {
@@ -1157,9 +1000,7 @@ main {
   }
 }
 
-/* Desktop Styles */
 @media (min-width: 981px) {
-  /* Show sidebar by default on desktop */
   .sidebar {
     position: relative;
     transform: translateX(0);
@@ -1181,45 +1022,16 @@ main {
     display: none;
   }
 
-  /* Store grid desktop optimization */
-  .store-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .store-item {
-    min-height: 160px;
-    padding: 2rem;
-  }
-
-  .store-item .title {
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .store-item .muted {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Cards grid desktop */
   .cards {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }
 
-  /* Map desktop */
   .map {
     height: 500px;
   }
 }
 
 @media (min-width: 1200px) {
-  /* Large desktop optimizations */
-  .store-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-
   .cards {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   }
@@ -1229,18 +1041,16 @@ main {
   }
 }
 
-/* High DPI Display Optimizations */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .dot {
     border-width: 2px;
   }
-  
+
   .battery-icon {
     border-width: 1px;
   }
 }
 
-/* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -1249,7 +1059,6 @@ main {
   }
 }
 
-/* Focus Styles for Keyboard Navigation */
 .btn:focus,
 .nav-btn:focus,
 input:focus,
@@ -1259,7 +1068,6 @@ textarea:focus {
   outline-offset: 2px;
 }
 
-/* Print Styles */
 @media print {
   .sidebar,
   .top,
@@ -1267,11 +1075,11 @@ textarea:focus {
   .install-notification {
     display: none !important;
   }
-  
+
   .main-content {
     margin-left: 0 !important;
   }
-  
+
   .card {
     box-shadow: none !important;
     border: 1px solid rgba(148, 163, 184, 0.3) !important;

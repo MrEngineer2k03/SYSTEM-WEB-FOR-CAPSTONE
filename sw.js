@@ -44,15 +44,12 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Skip non-GET requests
   if (event.request.method !== 'GET') return;
 
-  // Handle navigation requests
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          // Clone and cache the response
           const responseClone = response.clone();
           caches.open(DYNAMIC_CACHE).then(cache => {
             cache.put(event.request, responseClone);
@@ -60,7 +57,6 @@ self.addEventListener('fetch', event => {
           return response;
         })
         .catch(() => {
-          // Try cache first, then offline page
           return caches.match(event.request)
             .then(response => response || caches.match('./offline.html'));
         })
@@ -68,7 +64,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // For static assets, use cache-first strategy
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -76,17 +71,13 @@ self.addEventListener('fetch', event => {
           return response;
         }
 
-        // Not in cache, fetch from network
         return fetch(event.request).then(fetchResponse => {
-          // Don't cache if not a success response
           if (!fetchResponse || fetchResponse.status !== 200) {
             return fetchResponse;
           }
 
-          // Clone the response
           const responseClone = fetchResponse.clone();
 
-          // Cache the fetched response
           caches.open(DYNAMIC_CACHE).then(cache => {
             cache.put(event.request, responseClone);
           });
@@ -95,7 +86,6 @@ self.addEventListener('fetch', event => {
         });
       })
       .catch(() => {
-        // If both cache and network fail, show offline page
         if (event.request.destination === 'document') {
           return caches.match('./offline.html');
         }
@@ -103,14 +93,12 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Handle messages from the client
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
 
-// Background sync for offline actions (future enhancement)
 self.addEventListener('sync', event => {
   if (event.tag === 'sync-data') {
     console.log('Service Worker: Syncing data...');
